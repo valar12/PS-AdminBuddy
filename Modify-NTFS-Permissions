@@ -1,0 +1,7 @@
+Install-Module NTSFSecurity
+
+#Declare File/Folder Location
+$file="C:\Program Files (x86)\AgentMax2\"
+
+#Add NTFS permissions
+Get-Item -Path $file | Add-NTFSAccess -Account 'BUILTIN\Users' -AccessRights Modify
