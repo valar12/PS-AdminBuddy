@@ -1,0 +1,37 @@
+Function Get-ClientID {
+<#
+.SYNOPSIS
+    Gets client ID from remote computer
+.INPUTS
+    Name of remote computer
+.Example
+    Get-ClientID -Computer SKYNET-PC
+#>
+
+[CmdletBinding()]
+Param(
+    $Computer = (get-wmiobject win32_computersystem), 
+    $PCname = $Computer.name,
+    $File = (Get-Content \\$pcname\C$\fp\machine\dat32com.ini),
+    $Text = "Client Identifier"   
+)
+
+Begin{
+        $IDS = $file | Select-String -Pattern $Text
+            Foreach($ID in $IDS){
+                $hash = $id -replace "Client Identifier="
+    
+        $props = @{
+                 'pc' = $pcname
+                 'username' = $computer.username
+                 'ID' = $hash
+                }
+            $obj = New-Object -TypeName psobject -property $props
+            Write-Output $obj
+     }
+ }
+End{}
+ 
+}
+
+Get-ClientID | Export-Csv -NoTypeInformation \\clefpsp51\Protrav\Client_IDs\clientid_$((Get-Date).ToString('MM-dd-yyyy')).csv -Append
