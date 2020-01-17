@@ -1,0 +1,30 @@
+#get PC info
+$info = get-wmiobject win32_computersystem | select *
+
+#get username that is logged in
+$user = $env:username
+#$user = Read-Host -Prompt 'Enter the username of employee to be migrated'
+
+#get computer name to name the backup folder
+$computer = $env:computername
+
+#domain
+$domain = "PT"
+
+#date
+$date = "$((Get-Date).ToString('MM-dd-yyyy'))"
+
+#where to save
+$save = "$env:homeshare\$user-$date.trans.zip"
+
+#TransWiz UNC Path
+$command = "\\Clefpsp51\deploy\forensIT_Transwiz\Transwiz.exe"
+
+#TransWiz Arguments
+$args = "/BACKUP /SOURCEACCOUNT $domain\$user /TRANSFERFILE $save /SILENT /LOG $env:homeshare\$user-$computer-$date-BACKUP-transwiz-log.txt"
+
+#EXE Credentials Run
+#$credential = Get-Credential
+
+#Script 
+Start-Process -FilePath $command $args -Wait -Verb runas
