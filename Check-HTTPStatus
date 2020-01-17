@@ -1,0 +1,9 @@
+$http_statuscode = wget http://localhost:8080/ | % {$_.StatusCode}
+
+If ($http_statuscode -eq 200) {
+    Write-Host "Site is OK!"
+    } Else {
+    Write-Host "The Site may be down, please check!"
+    exit 404
+}
+exit 0
