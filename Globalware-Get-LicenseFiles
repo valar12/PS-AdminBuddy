@@ -1,0 +1,28 @@
+Function Get-GblwareLicense {
+<#
+.SYNOPSIS
+    Gets client ID from remote computer
+.INPUTS
+    Name of remote computer
+.Example
+    Get-GblwareLicense -Computer SKYNET-PC
+#>
+
+[CmdletBinding()]
+Param(
+    $File = (Get-Content -Path ${env:ProgramFiles(x86)}\Gblware\CasperSerial.sn)
+)
+
+Begin{
+        $props = @{
+                 'pc' = $env:COMPUTERNAME
+                 'username' = $env:USERNAME
+                 'License' = $File
+                }
+            $obj = New-Object -TypeName psobject -property $props
+            Write-Output $obj
+     }
+ }
+
+
+Get-GblwareLicense | Export-Csv -NoTypeInformation \\clefpsp51\Protrav\Gblware-Licenses\gblwarelicense_$((Get-Date).ToString('MM-dd-yyyy')).csv -Append
