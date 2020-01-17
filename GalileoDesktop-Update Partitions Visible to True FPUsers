@@ -1,0 +1,26 @@
+#Set Attribute to True to Start Terminal Windows
+$Value= "true"
+
+#Test if folder exists
+$userfolderpath = "$env:systemdrive\fp\datadir\users"
+
+if ((Test-Path $userfolderpath\*) -eq $True) {
+
+    Get-ChildItem $userfolderpath | ForEach-Object {
+
+        #Define File Path
+        $path = Get-Item "$env:systemdrive\fp\datadir\users\*\focalpoint.config.xml"
+
+        #Create and load an XML Document 
+        [xml]$doc = Get-Content -Path $path
+    
+        #Find ONLY the nodes of type Xpath with value of Value"
+        $node = $doc.'focalpoint.config'.partitions
+    
+        #Update the value
+        $node.visible = $Value
+    
+        #Save Document
+        $doc.Save($path)
+    }
+}
