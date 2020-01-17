@@ -1,0 +1,13 @@
+# https://datainthecity.net/2014/11/20/how-to-edit-the-windows-registry-in-powershell/
+
+# the key
+$RegKey = "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION";
+
+# add a new property if it does not exist yet
+$PropertyNameToBeAdded = "SfdcMSol.exe";
+$PropertyDataToBeAdded = "2Af8";
+$PropertyTypeToBeAdded = "DWord";
+if (-not (Get-ItemProperty $RegKey -Name $PropertyNameToBeAdded -ErrorAction SilentlyContinue))
+{
+    New-ItemProperty $RegKey -Name $PropertyNameToBeAdded -Value $PropertyDataToBeAdded -PropertyType $PropertyTypeToBeAdded
+}
