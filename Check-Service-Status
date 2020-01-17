@@ -1,0 +1,8 @@
+$ServiceName = "SQLANYs_gwsrv83"
+
+Try {
+Get-Service -Name $ServiceName | Where-Object {$_.Status -eq "Running"} -ErrorAction Stop
+} Catch {
+$_.Exception
+exit 777
+}
