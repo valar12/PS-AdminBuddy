@@ -1,0 +1,3 @@
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.208 -Force
+Install-Module -Name "NTFSSecurity" -RequiredVersion 4.2.6 -Force
+Import-Module NTFSSecurity -force
