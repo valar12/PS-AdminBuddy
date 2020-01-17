@@ -1,0 +1,25 @@
+#Define file and user paths
+$wininifile = "$env:systemroot\WIN.INI" 
+$userfolderpath = "$env:systemdrive\fp\datadir\users"
+
+if ((Test-Path $userfolderpath\*) -eq $True) {
+
+    #enumerate fp user profiles
+    $fpusernames = get-childitem $userfolderpath
+    
+    #this is the value we are searching for
+    $pri= 'username='
+    
+    #Search the file for the pattern but only select the first match. We need this to do a replace next
+    $OldValue = get-content $wininifile | select-string -pattern $pri | Select-Object -First 1
+    
+    #What we are replacing the text with
+    $NewValue = "username=$fpusernames"
+    
+    #open the file back up and do a replace on all objects in the document then save.
+    (Get-content $wininifile).replace($OldValue,$NewValue) | Set-Content $wininifile
+    
+    #Append Attribute to end of file
+    Add-Content -Path $wininifile -Value "LogonEnabled=1"
+
+}
