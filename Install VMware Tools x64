@@ -1,0 +1,1 @@
+$(Repository)\VMware Tools\VMware Tools 11.0.1-14773994\VMware-tools-11.0.1-14773994-x86_64.exe /S /v "/qn /l*v ""%TEMP%\vmmsi.log"" ADDLOCAL=ALL"
