@@ -1,0 +1,24 @@
+#$env:SystemRoot\system32\regsvr32 /s %SystemRoot%\AdminArsenal\PDQDeployRunner\service-1\exec\ChilkatAx-9.5.0-win32.dll
+
+function Register-File {
+ <#
+  .SYNOPSIS
+         A function that uses the utility regsvr32.exe utility to register a file
+     .PARAMETER FilePath
+        The file path
+ #>
+    [CmdletBinding()]
+    param (
+        [ValidateScript({ Test-Path -Path $_ -PathType 'Leaf' })]
+        [string]$FilePath
+    )
+    process {
+        try {
+            $Result = Start-Process -FilePath 'regsvr32.exe' -Args "/s $FilePath" -Wait -NoNewWindow -PassThru
+  } catch {
+         Write-Error $_.Exception.Message $false
+  }
+ }
+}
+
+Register-File $env:temp\ChilkatAx-9.5.0-win32.dll
