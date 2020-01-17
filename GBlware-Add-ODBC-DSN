@@ -1,0 +1,8 @@
+$GlobalwareDSN = Get-OdbcDsn -Name "*Gblware32"
+
+if ($GlobalwareDSN.Name -eq 'Gblware32') {
+Set-OdbcDsn -Name "Gblware32" -DriverName "SQL Anywhere 16" -DsnType "System" -Platform "32-bit" -SetPropertyValue @("ServerName=gwsrv83", "Host=192.168.5.48:2638", "CommLinks=TCPIP{}", "Delphi=Yes", "Encryption=TLS{trusted_certificates=C:\Windows\ClientId.pem;company=TRAVELPORT;name=TRAVELPORT;unit=IT;tls_type=RSA}", "InitString=SET TEMPORARY OPTION CONNECTION_AUTHENTICATION=Company=Travelport;Application=Globalware;Signature=000fa55157edb8e14d818eb4fe3db41447146f1571g3e73b64edb3cfc2a3e3b677187114ada73db31c0", "Integrated=NO") -PassThru
+
+}else{
+Add-OdbcDsn -Name "Gblware32" -DriverName "SQL Anywhere 16" -DsnType "System" -Platform "32-bit" -SetPropertyValue @("ServerName=gwsrv83", "Host=192.168.5.48:2638", "CommLinks=TCPIP{}", "Delphi=Yes", "Encryption=TLS{trusted_certificates=C:\Windows\ClientId.pem;company=TRAVELPORT;name=TRAVELPORT;unit=IT;tls_type=RSA}", "InitString=SET TEMPORARY OPTION CONNECTION_AUTHENTICATION=Company=Travelport;Application=Globalware;Signature=000fa55157edb8e14d818eb4fe3db41447146f1571g3e73b64edb3cfc2a3e3b677187114ada73db31c0", "Integrated=NO") -PassThru
+}
