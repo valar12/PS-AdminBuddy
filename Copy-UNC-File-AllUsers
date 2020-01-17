@@ -1,0 +1,3 @@
+$Source = '\\clefpsp51\deploy\FaxFinder_Client\Config\servers.xml'
+$Destination = 'C:\Users\*\AppData\Roaming\FaxFinder Client Software\Settings\'
+Get-ChildItem $Destination | ForEach-Object {Copy-Item -Path $Source -Destination $_ -Force}
