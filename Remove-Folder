@@ -1,0 +1,7 @@
+#path to delete
+$path = "${env:ProgramFiles(x86)}\BookingBuilder"
+
+#If registry value exists delete it
+If (Test-Path -Path $path) {
+     Get-ChildItem -Path $path | Remove-Item -Recurse -Confirm:$false -Force
+}
