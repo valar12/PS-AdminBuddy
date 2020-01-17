@@ -1,0 +1,47 @@
+#$(Repository)\Apache\Tomcat9.0.26\jre-8u221-windows-x64.exe
+[System.Environment]::SetEnvironmentVariable('JRE_HOME', "$env:ProgramFiles\Java\jre1.8.0_221\", [System.EnvironmentVariableTarget]::Machine)
+#$(Repository)\Apache\Tomcat8.5.46\apache-tomcat-8.5.46.exe
+#Define apache bin location
+
+$apachetomcatbin = "${env:ProgramFiles(x86)}\Apache Software Foundation\Tomcat 8.5\bin\"
+#Install Windows Service Named tomcat8
+$apachetomcatbin\service.bat install tomcat8
+
+#Define apache bin location
+$apachetomcatbin = "${env:ProgramFiles(x86)}\Apache Software Foundation\Tomcat 8.5\bin\"
+
+#Configure Tomcat Parameters
+#Startup Auto
+#Set Find jvm.dll in win registry
+#Set JVMs initial memory pool 2048
+#Set JVMx max memory pool 4095
+$apachetomcatbin\tomcat8.exe //US//tomcat8 --Startup=auto --Jvm auto --JvmMs=2048 --JvmMx=4096
+
+#Variables
+$service = 'tomcat8'
+$serviceinfo = Get-Service $service
+
+# Script
+for ($service)
+{
+    if ($serviceinfo.Status -eq 'Stopped')
+    {
+        Start-Service $service
+        break
+    }
+    else
+    {
+        exit
+    }
+}
+exit
+
+$http_statuscode = wget http://localhost:8080/ | % {$_.StatusCode}
+
+If ($http_statuscode -eq 200) {
+    Write-Host "Site is OK!"
+    } Else {
+    Write-Host "The Site may be down, please check!"
+    exit 404
+}
+exit 0
