@@ -1,0 +1,59 @@
+<#
+this script takes a file dropped into incoming
+copies it to SFTP server
+then moves it to outgoing
+#>
+
+$sftpServer = "sftp-aws.thefutureis.mobi"
+$sftpRemotePath = "hr_data/"
+$sftpUsername = "polyone_travel"
+$srcFolder = "C:\Datafeeds\PolyOneMOBI\Incoming"   # Folder containing the files you want to upload.
+$dstFolder = "C:\Datafeeds\PolyOneMOBI\Processed"   # Folder that the script will move the files to after uploading.
+
+$env:PSModulePath = $env:PSModulePath + ";C:\Datafeeds\PSModules" #Location of Powershell SSH module on server
+
+if (!(Get-Module "PoSh-SSH")) {     # check to see is module is not loaded. It not loaded import.
+    Import-Module Posh-SSH
+}
+
+$pKeyFile = "C:\Datafeeds\keys\PolyOneMOBI\PolyOne.MOBI.ssh.private"   # Private Key File location
+$nopasswd = new-object System.Security.SecureString
+ 
+$CredDest = New-Object System.Management.Automation.PSCredential($sftpUsername, $nopasswd)
+ 
+$todayDate = Get-Date -Format "yyyy-MM-dd HHmm"
+$folderDate = Get-Date -Format "yyyyMMdd"
+ 
+Get-SFTPsession | Remove-SFTPSession | Out-Null
+ 
+$Session = New-SFTPSession -ComputerName $sftpServer -Credential $CredDest -KeyFile $pKeyFile -AcceptKey
+
+#list and transfer files in Inbound folder to remote path
+Set-Location $srcFolder
+$LocalFiles = Get-ChildItem $srcFolder #| Where-Object {$_.CreationTime -gt (Get-Date).Addhours(-24)} #Below with the Where-object, cannot get it to work, but it essentially SHOULD only takes files from the last 24 hours 
+ 
+ForEach ($LocalFile in $LocalFiles)
+{
+Set-SFTPFile -SessionId $Session.SessionId -LocalFile "$LocalFile" -RemotePath "$sftpRemotePath"
+}
+ 
+#Creates a list of uploaded files to email
+$Files = (Get-SFTPChildItem -SessionId $Session.SessionId -Path "$sftpRemotePath") | Select Name,FullName,Length | Sort-Object FullName
+$msgFiles = $Files | where-object {$_.Length -ne "0"}
+
+$Body = "SFTP Script Started`r`n`nHost: $($Session.Host)"
+$Subject = "$todayDate - SFTP Upload"  #can be changed
+$SMTP = "mail.protrav.com" #Our SMTP Server
+$To = "IT@protrav.com"  #To Address
+$From = "IT@protrav.com" #From address
+
+#Email the list when completed
+$Body = "SFTP Script Ended `r`n`nFiles moved from $srcFolder to $dstFolder`r`n`nHost: $($Session.Host)`r`n`nFiles Names:`r`n"
+$msgFiles | ForEach {$Body += " $($_.Name)`n"}
+$Subject = "$todayDate - SFTP Upload Completion Report"
+#Send-MailMessage -To $To -From $From -SmtpServer $SMTP -Body $Body -Subject $Subject 
+ 
+Get-SFTPsession | Remove-SFTPSession
+ 
+#Moves the local files after processing
+$LocalFiles | Move-Item -Destination $dstFolder -Force
