@@ -1,0 +1,18 @@
+#Variables
+$service = 'tomcat8'
+$serviceinfo = Get-Service $service
+
+# Script
+for ($service)
+{
+    if ($serviceinfo.Status -eq 'Stopped')
+    {
+        Start-Service $service
+        break
+    }
+    else
+    {
+        exit
+    }
+}
+exit
