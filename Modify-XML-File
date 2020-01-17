@@ -1,0 +1,32 @@
+#GroundSpan ID Code to Update
+$NewAgencyID = "dEIvdEZwJiQ8MkpDdj0iJgta1ANsHKeApfXIC9hm9hsD9Bz5bAQFrIhHoS64M44kix6gO+h5hu9fnk08M2DXH9"
+
+#XML Node Attribute to Select
+$Xpath = "//Settings/Setting[@Name='AgencyID']"
+
+#See AppData location
+$Destination = 'C:\Users\*\'
+
+Get-ChildItem $Destination | ForEach-Object {
+    
+    #Test if folder exists
+    $localGBT = "$env:localappdata\GroundSpan Booking Tool"
+    
+    if ((Test-Path $localGBT) -eq $True) {
+
+        #Define File Path
+        $path = Get-Item "$env:localappdata\GroundSpan Booking Tool\User.*.Settings.xml"
+  
+        #Create and load an XML Document 
+        [xml]$doc = Get-Content -Path $path
+
+        #Find ONLY the nodes of type "Settings" with an attribute of "AgencyID"
+        $node = ( $doc | Select-Xml -XPath $XPath ).Node
+
+        #Update the value with the new GroundSpan ID Code
+        $node.Value = $NewAgencyID
+
+        #Save Document
+        $doc.Save($path)
+    }
+}
