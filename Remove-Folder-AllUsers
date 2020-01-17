@@ -1,0 +1,4 @@
+#Get Users
+$Users = Get-Childitem -Path "C:\Users"
+#remove Folder for each user
+$Users | ForEach-Object {Remove-Item -Path "$env:SystemDrive\Users\$($_.Name)\AppData\Local\BookingBuilder\*" -Recurse -ErrorAction Ignore -Force}
