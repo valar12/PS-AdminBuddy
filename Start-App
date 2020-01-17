@@ -1,0 +1,1 @@
+Start-Process -Filepath "${env:ProgramFiles(x86)}\AgentMax2\AgentMax.exe" -WindowStyle Hidden
