@@ -1,0 +1,15 @@
+#Define file path
+$path = "$env:appdata\Travelport\Travelport.Smartpoint\user.config"
+
+#Load file
+$doc = New-Object System.Xml.XmlDocument
+$doc.Load($path)
+
+#Select Setting
+$setting = $doc.SelectSingleNode("//setting[@name = 'LoggingOn']")
+
+#Set Value
+$setting.value = "True"
+
+#Save XML File
+$doc.Save($path)
