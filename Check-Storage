@@ -1,0 +1,10 @@
+#check if drive has enough available space to run the recovery action. Greater than 40 GB.
+$freespace = Get-DiskSpace -DriveLetter D: | Select-Object -Property AvailableFreeSpaceUnitSize
+
+if ($freespace.AvailableFreeSpaceUnitSize -gt '40') {
+    break
+    } else {
+    write-Output "not enough storage space"
+    exit 777
+}
+exit
