@@ -1,0 +1,7 @@
+#registry path to delete
+$path = "HKLM:\Software\LaunchMagic"
+
+#If registry value exists delete it
+If (Test-Path -Path $path) {
+     Remove-Item $path -recurse -force
+}
