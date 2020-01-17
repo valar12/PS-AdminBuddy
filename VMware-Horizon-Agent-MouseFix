@@ -1,0 +1,25 @@
+#For PCOIP/BLAST protocol, update the following in the View agent machine.
+#Declare Registry Values
+$Name = "WDDMDevAPIversion"
+$value = "1"
+$regpath32 = "registry::HKEY_LOCAL_MACHINE\SOFTWARE\VMware, Inc.\VMware SVGA DevTap"
+$regpath64 = "registry::HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\VMware, Inc.\VMware SVGA DevTap"
+
+
+#Set WDDMDevAPIversion x32 Value to 1. If registry does not exist create it with $value
+
+if(!(Test-Path $regpath32))   {
+    New-Item -Path $regpath32 -Force
+    New-ItemProperty -Path $regpath32 -Name $name -Value $value -PropertyType DWord -Force}
+    ELSE {
+    #Update registry key with $value
+    New-ItemProperty -Path $regpath32 -Name $name -Value $value -PropertyType DWord -Force}
+
+#Set WDDMDevAPIversion x64 Value to 1. If registry does not exist create it with $value
+
+if(!(Test-Path $regpath64))   {
+    New-Item -Path $regpath64 -Force
+    New-ItemProperty -Path $regpath64 -Name $name -Value $value -PropertyType DWord -Force}
+    ELSE {
+    #Update registry key with $value
+    New-ItemProperty -Path $regpath64 -Name $name -Value $value -PropertyType DWord -Force}
