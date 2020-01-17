@@ -1,0 +1,10 @@
+#get file
+$File = "C:\fp\machine\DAT32COM.INI" 
+    #this is the value we are searching for
+$pri= 'PrimaryIPCS='
+    #Search the file for the pattern but only select the first match. We need this to do a replace next
+$OldValue = get-content $file | select-string -pattern $pri | Select-Object -First 1
+    #What we are replacing the text with
+$NewValue = "PrimaryIPCS=127.0.0.1"
+    #open the file back up and do a replace on all objects in the document then save.
+(Get-content $File).replace($OldValue,$NewValue) | Set-Content C:\fp\machine\dat32com.ini
