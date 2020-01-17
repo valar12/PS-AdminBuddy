@@ -1,0 +1,11 @@
+$base = Get-ChildItem C:\fp\datadir\users -Recurse -Include focalpoint.config.xml
+
+#get file and string
+
+$1 = gc $base | select-string '<partition title'
+
+#new node data
+$new1 = '<partition title="{{STRING.FP_CFG_WND_1_TITLE}}" top="1" left="1" state="normal" textcolor="White" backcolor="Blue" zoomed="0" font_name="Bitstream Vera Sans Mono" font_weight="4" font_size="11" connection_name="defaultconnection"/><partition title="{{STRING.FP_CFG_WND_2_TITLE}}" top="325" left="1" state="normal" textcolor="Black" backcolor="Cyan" zoomed="0" font_name="Bitstream Vera Sans Mono" font_weight="4" font_size="11" connection_name="defaultconnection"/><partition title="{{STRING.FP_CFG_WND_3_TITLE}}" top="1" left="595" state="normal" textcolor="White" backcolor="Blue" zoomed="0" font_name="Bitstream Vera Sans Mono" font_weight="4" font_size="11" connection_name="defaultconnection"/><partition title="{{STRING.FP_CFG_WND_4_TITLE}}" top="325" left="595" state="normal" textcolor="Black" backcolor="Cyan" zoomed="0" font_name="Bitstream Vera Sans Mono" font_weight="4" font_size="11" connection_name="defaultconnection"/></partitions>'
+
+#get file, replace, save
+((Get-Content -path $base) -replace $1, $new1) | set-content -path $base
