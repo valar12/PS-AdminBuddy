@@ -1,0 +1,1 @@
+%SYSTEMROOT%\System32\taskkill.exe /f /im "ibdccore.exe" /t
