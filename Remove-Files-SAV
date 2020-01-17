@@ -1,0 +1,2 @@
+$GblwareInstallPath = "D:\Gblware"
+Remove-Item -Path $GblwareInstallPath\db\* -Include *sav*
