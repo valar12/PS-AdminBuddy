@@ -1,0 +1,26 @@
+#get PC info
+$info = get-wmiobject win32_computersystem | select *
+
+#get username that is logged in
+$user = $env:username
+
+#get computer name to name the backup folder
+$computer = $env:computername
+
+#domain
+$domain = "PT"
+
+#date
+$date = "$((Get-Date).ToString('MM-dd-yyyy'))"
+
+#where to save
+$save = "$env:homeshare\backup-profile\$user-$date.trans.zip"
+
+#TransWiz UNC Path
+$command = "\\Clefpsp51\deploy\forensIT_Transwiz\Transwiz.exe"
+
+#TransWiz Arguments
+$args = "/RESTORE /TARGETACCOUNT $DOMAIN\$USER /TRANSFERFILE $save /SILENT/LOG $env:homeshare\$user-$computer-$date-RESTORE-transwiz-log.txt"
+
+#Script 
+Start-Process -FilePath $command $args -Wait -Verb runas
