@@ -1,0 +1,22 @@
+#Set Attribute to True to Start Terminal Windows
+$Value= "True"
+
+#Test if folder exists
+$localfolder= "C:\fp\datadir\WSTN\"
+    
+if ((Test-Path $localfolder) -eq $True) {
+    #Define File Path
+    $path = Get-Item "$env:systemdrive\fp\datadir\WSTN\focalpoint.config.xml"
+
+    #Create and load an XML Document 
+    [xml]$doc = Get-Content -Path $path
+
+    #Find ONLY the nodes of type Xpath with value of Value"
+    $node = $doc.'focalpoint.config'.partitions
+
+    #Update the value
+    $node.visible = $Value
+
+    #Save Document
+    $doc.Save($path)
+}
