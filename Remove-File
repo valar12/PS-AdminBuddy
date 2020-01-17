@@ -1,0 +1,1 @@
+Remove-Item -Path "$Env:ProgramFiles(x86)\Travelport\Smartpoint\PluginLocations\BBSmartpointPlugin.xml" -Recurse -ErrorAction Ignore -Force
