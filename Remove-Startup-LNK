@@ -1,0 +1,3 @@
+If (Test-Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\map_fp_pkey_users_dat32com.lnk"){ 
+Remove-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\map_fp_pkey_users_dat32com.lnk" 
+}
