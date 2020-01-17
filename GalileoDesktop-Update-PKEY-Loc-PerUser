@@ -1,0 +1,23 @@
+#Set Attribute Desired PKEY file
+$Value= "C:\fp\datadir\pkeys\AGENCYDEFAULT.pkeys.xml"
+
+#Test if folder exists
+$userfolderpath = "$env:systemdrive\fp\datadir\users"
+
+if ((Test-Path $userfolderpath\*) -eq $True) {
+
+    Get-ChildItem $userfolderpath | ForEach-Object {
+
+        #Define File Path
+        $path = Get-Item "$env:systemdrive\fp\datadir\users\*\focalpoint.config.xml"
+
+        #Create and load an XML Document 
+        [xml]$doc = Get-Content -Path $path
+    
+        #Update xml node path
+        $doc.'focalpoint.config'.components.ChildNodes.Item(0).component_data.DefaultPKeys = $Value
+        
+        #Save Document
+        $doc.Save($path)
+    }
+}
