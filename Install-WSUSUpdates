@@ -1,0 +1,2 @@
+#PSWindowsUpdates module
+Get-WindowsUpdate -AcceptAll -Install -IgnoreReboot | Out-File "$env:SystemDrive\$(get-date -f yyyy-MM-dd)-WindowsUpdate.log" -Force
