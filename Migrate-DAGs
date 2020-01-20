@@ -1,0 +1,8 @@
+Move-ActiveMailboxDatabase DAGDB2 -ActivateOnServer MXP52 -Confirm
+Start-Sleep 120
+Move-ActiveMailboxDatabase DAGDB4 -ActivateOnServer MXP52 -Confirm
+Start-Sleep 120
+Move-ActiveMailboxDatabase DAGDB1 -ActivateOnServer MXP51 -Confirm
+Start-Sleep 120
+Move-ActiveMailboxDatabase DAGDB3 -ActivateOnServer MXP51 -Confirm
+Start-Sleep 120
