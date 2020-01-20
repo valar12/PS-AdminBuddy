@@ -1,0 +1,28 @@
+<#
+.SYNOPSIS
+Automates the Disk Clean tool to clean up all possible items for the given OS.
+#>
+
+# V2 admin check
+If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
+{
+    Write-Warning "Please run this script as an Administrator!"
+    Exit 1
+}
+
+# Create reg keys
+$volumeCaches = Get-ChildItem "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches"
+foreach($key in $volumeCaches)
+{
+    New-ItemProperty -Path "$($key.PSPath)" -Name StateFlags0099 -Value 2 -Type DWORD -Force | Out-Null
+}
+
+# Run Disk Cleanup 
+Start-Process -Wait "$env:SystemRoot\System32\cleanmgr.exe" -ArgumentList "/sagerun:99"
+
+# Delete the keys
+$volumeCaches = Get-ChildItem "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches"
+foreach($key in $volumeCaches)
+{
+    Remove-ItemProperty -Path "$($key.PSPath)" -Name StateFlags0099 -Force | Out-Null
+}
