@@ -1,0 +1,3 @@
+$ServerName1 = $env:computername
+Move-ActiveMailboxDatabase -Server $ServerName1
+& '.\Start-ExchangeServerMaintenanceMode_v1.8.ps1' -Server $ServerName1 -TargetServerFQDN MXP52
