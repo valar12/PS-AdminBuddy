@@ -1,0 +1,13 @@
+# Set PeerCaching to Disabled (0) or Local Network PCs only (1):
+If ($PeerCache -eq "True")
+{
+    Write-Host "Disabling PeerCaching..." -ForegroundColor Yellow
+    Write-Host ""
+    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config' -Name 'DODownloadMode' -Value '0'
+}
+Else
+{
+    Write-Host "Configuring PeerCaching..." -ForegroundColor Cyan
+    Write-Host ""
+    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config' -Name 'DODownloadMode' -Value '1'
+}
