@@ -86,4 +86,5 @@ $appname = @(
 
 ForEach($app in $appname){
 Get-AppxPackage -Name $app | Remove-AppxPackage -ErrorAction SilentlyContinue
+Get-AppxProvisionedPackage -Online | where {$_.PackageName -like $app} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue
 }
