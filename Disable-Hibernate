@@ -1,0 +1,4 @@
+# Disable Hibernate
+Write-Host "Disabling Hibernate..." -ForegroundColor Green
+Write-Host ""
+POWERCFG -h off
