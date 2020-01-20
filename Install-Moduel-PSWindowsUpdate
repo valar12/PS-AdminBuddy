@@ -1,0 +1,4 @@
+# Install required modules
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.208 -Force
+Install-Module -Name "PSWindowsUpdate" -RequiredVersion 2.1.1.2 -Force
+Import-Module PSWindowsUpdate -force
