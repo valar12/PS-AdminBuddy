@@ -1,0 +1,3 @@
+reg load "hku\Default" "C:\Users\Default\NTUSER.DAT" 
+reg add "HKU\Default\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v PeopleBand /t Reg_DWORD /d 0 /f
+reg unload "hku\Default"
