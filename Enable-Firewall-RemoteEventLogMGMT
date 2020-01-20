@@ -1,0 +1,1 @@
+Get-NetFirewallRule -DisplayGroup "Remote Event Log Management" | Enable-NetFirewallRule
