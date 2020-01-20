@@ -1,0 +1,5 @@
+#2012+
+Set-SmbServerConfiguration -EnableSMB1Protocol $false
+
+#7/2008/2008R2
+Set-ItemProperty -path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" SMB1 -Type DWORD -Value 0 -Force
