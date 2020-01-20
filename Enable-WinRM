@@ -1,0 +1,2 @@
+Enable-PSRemoting -Force
+SC config WinRM start= delayed-auto
