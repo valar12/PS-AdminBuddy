@@ -1,0 +1,14 @@
+$domain = "soup.local"
+$user = "SRC-TestLoginAccount"
+$password = "TESTPASSWORD"
+$TimeStamp = Get-Date -UFormat "%Y.%m.%d"
+$LogFile = "\\fpsp51\IT\Deploy\LDAPS\" + "log_test" + "_" + "$TimeStamp" + ".log"
+
+#Attempt to connect to LDAP via porty 636 with credentials. Write success or failure to logfile.
+
+try {
+   $LDAPS = New-Object adsi ("LDAP://$domain:636",$user,$password,'SecureSocketsLayer')
+   "$(hostname) - Secure LDAP Connection succeeded."  | Out-File $LogFile -Append
+} Catch {
+   "$(hostname) - Secure LDAP Connection failed."  | Out-File $LogFile -Append
+}
