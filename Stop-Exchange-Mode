@@ -1,0 +1,2 @@
+$ServerName1 = $env:computername
+& '.\Stop-ExchangeServerMaintenanceMode_v1.5.ps1' -Server $ServerName1
