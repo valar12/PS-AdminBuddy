@@ -1,0 +1,22 @@
+$ErrorActionPreference = "Stop"
+$ServiceStartType = (Get-WmiObject win32_Service -Filter "Name='Wuauserv'").StartMode
+$Destination = "$env:TEMP\StoredService.txt"
+
+# Create $Destination file if it does not already exist
+If (-not (Test-Path $Destination)) { 
+
+    New-Item -Path $Destination -ItemType File
+    
+}
+
+$ServiceStartType | Out-file -FilePath $Destination -Force
+
+If ($ServiceStartType -match "Disabled"){
+
+    Set-Service Wuauserv -StartupType Manual
+    Write-Output "The Windows Update service startup type has been Changed from Disabled to Manual on $Env:COMPUTERNAME."       
+
+}
+
+Write-Output "Stopping Windows Update service on $Env:COMPUTERNAME"
+Stop-Service -Name wuauserv -Force
