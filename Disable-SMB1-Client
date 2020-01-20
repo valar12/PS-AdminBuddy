@@ -1,0 +1,6 @@
+#7/2008/2008R2
+sc.exe config lanmanworkstation depend= bowser/mrxsmb20/nsi
+sc.exe config mrxsmb10 start= disabled
+
+#8.1/10
+Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol
