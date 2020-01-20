@@ -1,0 +1,53 @@
+#requires -version 2.0
+ 
+# (c) 2012 by John RobbinsWintellect
+ 
+<#.SYNOPSIS
+Sets the current power plan.
+.DESCRIPTION
+The POWERCFG.EXE utility requires GUIDS when changing a power plan instead of
+the name of the plan. Thatâ€™s highly inconvenient so this simple script allows
+you to use common sense names like â€œBalancedâ€ or â€œPower Saverâ€ instead.
+ 
+To get the list of power plans on your computer execute â€˜powercfg -lâ€™
+.PARAMETER Plan
+The name of the power plan to use.
+.EXAMPLE
+Set-PowerPlan -Plan Balanced
+Sets the power plan to the Balanced plan, the recommnded Microsoft plan.
+.EXAMPLE
+Set-PowerPlan â€œPower Saverâ€
+Sets the power plan to the Power Saver plan to reduce battery usage.
+.LINK
+http://www.wintellect.com/CS/blogs/jrobbins/archive/tags/PowerShell/default.aspx
+#>
+ 
+param ($Plan = $(throw â€˜You must specify the power plan, use â€œpowercfg -lâ€ for the plan namesâ€™ ))
+ 
+Set-StrictMode -Version Latest
+ 
+# Get the list of plans on the current machine.
+$planList = powercfg.exe -l
+ 
+# The regular expression to pull out the GUID for the specified plan.
+$planRegEx = â€œ(?<PlanGUID>[A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12})â€ + (â€œ(?:s+({0}))â€ -f $Plan)
+ 
+# If the plan appears in the listâ€¦
+if ( ($planList | Out-String) -match $planRegEx )
+{
+    # Pull out the matching GUID and capture both stdout and stderr.
+    $result = powercfg -s $matches[â€œPlanGUIDâ€] 2>&1
+    
+    # If there were any problems, show the error.
+    if ( $LASTEXITCODE -ne 0)
+    {
+        $result
+    }
+}
+else
+{
+    Write-Error (â€œThe requested power scheme â€˜{0}â€™ does not exist on this machineâ€ -f $Plan)
+}
+
+& '.\Set-PowerPlan.ps1' 
+Set-PowerPlan "High performance"
