@@ -1,0 +1,1 @@
+Set-ItemProperty -Path 'registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management' -Name 'PagingFiles' -Value 'c:\pagefile.sys 4096 8192'
