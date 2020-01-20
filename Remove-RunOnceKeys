@@ -1,0 +1,1 @@
+reg delete HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce /va /f
