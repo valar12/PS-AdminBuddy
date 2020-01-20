@@ -1,0 +1,8 @@
+# Disable Cortana:
+New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\' -Name 'Windows Search' | Out-Null
+If ($Cortana -eq "True")
+{
+    Write-Host "Disabling Cortana..." -ForegroundColor Yellow
+    Write-Host ""
+    New-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search' -Name 'AllowCortana' -PropertyType DWORD -Value '0' | Out-Null
+}
