@@ -1,0 +1,1 @@
+Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\policies\system" -Name LocalAccountTokenFilterPolicy -Value 0
