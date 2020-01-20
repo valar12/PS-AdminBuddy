@@ -1,0 +1,4 @@
+# Disable System Restore
+Write-Host "Disabling System Restore..." -ForegroundColor Green
+Write-Host ""
+Disable-ComputerRestore -Drive "C:\"
