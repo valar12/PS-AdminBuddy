@@ -1,0 +1,8 @@
+$ServerName = $env:computername
+$smtpsettings = @{
+    To =  "it@soup.com"
+    From = "exchangeserver@soup.com"
+    Subject = "$reportemailsubject - $now"
+    SmtpServer = "mail.soup.com"
+    }
+& '.\Test-ExchangeServerHealth.ps1' -Server $ServerName -ReportMode -SendEmail
