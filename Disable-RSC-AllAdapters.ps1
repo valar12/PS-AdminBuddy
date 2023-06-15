@@ -1,0 +1,1 @@
+﻿Disable-NetAdapterRsc -Name "*" -NoRestart
