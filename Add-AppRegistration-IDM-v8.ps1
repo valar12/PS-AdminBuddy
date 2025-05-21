@@ -114,7 +114,7 @@ $pwdParams = @{
     PasswordCredential = @{
         StartDateTime = (Get-Date)
         EndDateTime   = (Get-Date).AddYears(1)   # Password expires in 1 year
-        DisplayName   = "MigrationWiz"           # Customize as needed
+        DisplayName   = "IDM-v8"           # Customize as needed
     }
 }
 
